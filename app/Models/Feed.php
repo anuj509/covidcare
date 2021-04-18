@@ -22,7 +22,8 @@ class Feed extends Model
 
     public $fillable = [
         'name',
-        'content'
+        'content',
+        'user_id'
     ];
 
     /**
