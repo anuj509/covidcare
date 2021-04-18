@@ -25,5 +25,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/userposts/{userid}', 'PostAPIController@userPosts');
 
+    Route::post('/posts/statusupdate/{userid}', 'PostAPIController@updateUserPost');
+
     Route::resource('feeds', 'FeedAPIController');
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreatePostAPIRequest;
 use App\Http\Requests\API\UpdatePostAPIRequest;
+use App\Http\Requests\API\UpdatePostStatusAPIRequest;
 use App\Models\Post;
 use App\Repositories\PostRepository;
 use App\Repositories\CovidCareUserRepository;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\PostResource;
 use Response;
-
+use Carbon\Carbon;
 /**
  * Class PostController
  * @package App\Http\Controllers\API
@@ -37,11 +38,12 @@ class PostAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $posts = $this->postRepository->all(
-            $request->except(['skip', 'limit']),
+        $posts = $this->postRepository->findBy(
+            ['closed_at'=>NULL,'requirement'=>'like%' . $request->get('category') . '%'],
+            // $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
-        );
+        )->get();
         $posts = $posts->toArray();
         foreach ($posts as $key => $post) {
             $params = array('oxygen','plasma','medicines','bed');
@@ -69,6 +71,8 @@ class PostAPIController extends AppBaseController
         $input['plasma'] = json_encode($input['plasma']);
         $input['medicines'] = json_encode($input['medicines']);
         $input['bed'] = json_encode($input['bed']);
+        $input['marked_by_user']=false;
+        $input['comment']="";
         $post = $this->postRepository->create($input);
         
         return $this->sendResponse(new PostResource($post), 'Post saved successfully');
@@ -162,5 +166,22 @@ class PostAPIController extends AppBaseController
             }
         }
         return $this->sendResponse($user, 'User Post retrieved successfully');
+    }
+
+    public function updateUserPost($userid, UpdatePostStatusAPIRequest $request)
+    {
+        /** @var Post $post */
+        $post = $this->postRepository->findBy(['id'=>$request['post_id'],'user_id'=>$userid])->first();
+
+        if (empty($post)) {
+            return $this->sendError('Post not found');
+        }
+        $post->closed_at = Carbon::now();
+        $post->marked_by_user = true;
+        if($request['comment']){
+            $post->comment = $request['comment'];
+        }
+        $post->save();
+        return $this->sendSuccess('Post updateded successfully');
     }
 }

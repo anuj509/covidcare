@@ -32,7 +32,10 @@ class PostRepository extends BaseRepository
         'medicines',
         'bed',
         'other',
-        'user_id'
+        'user_id',
+        'closed_at',
+        'marked_by_user',
+        'comment'
     ];
 
     /**

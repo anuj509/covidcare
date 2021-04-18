@@ -216,7 +216,15 @@ abstract class BaseRepository
         $query = $this->model->newQuery();
         foreach($search as $key => $value) {
             if (in_array($key, $this->getFieldsSearchable())) {
-                $query->where($key, $value);
+                $exp = "/like([%])\w+([%])/";
+                if(preg_match($exp, $value)==1){
+                    // dd(preg_match($exp, $value));
+                    $value = str_replace($value,'like%','');
+                    $value = str_replace($value,'%','');
+                    $query->where($key, 'LIKE', '%'.$value.'%');
+                }else{
+                    $query->where($key, $value);
+                }
             }
         }
 

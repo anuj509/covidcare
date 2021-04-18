@@ -50,7 +50,10 @@ class Post extends Model
         'medicines',
         'bed',
         'other',
-        'user_id'
+        'user_id',
+        'closted_at',
+        'marked_by_user',
+        'comment',
     ];
 
     /**
@@ -94,6 +97,11 @@ class Post extends Model
         'patient_currently_admitted_at' => 'required',
         'ward' => 'required',
         'requirement' => 'required|array',
+        'user_id' => 'required'
+    ];
+
+    public static $updatePostRules = [
+        'post_id' => 'required',
     ];
 
 

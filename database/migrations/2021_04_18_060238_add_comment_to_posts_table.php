@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddClosedOnToPostsTable extends Migration
+class AddCommentToPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddClosedOnToPostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dateTime('closed_at')->nullable();
-            $table->boolean('marked_by_user')->default(false);
+            $table->text('comment');
         });
     }
 
@@ -27,8 +26,7 @@ class AddClosedOnToPostsTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('closed_at');
-            $table->dropColumn('marked_by_user');
+            $table->dropColumn('comment');
         });
     }
 }
