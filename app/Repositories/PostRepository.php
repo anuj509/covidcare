@@ -17,6 +17,7 @@ class PostRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
+        'id',
         'name',
         'dob',
         'gender',
