@@ -35,23 +35,32 @@ class SupplierAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $searchfields = array('name','location','phone');
-        $suppliers = $this->supplierRepository->findBy(
-            ["category"=>$request->get('category')],
-            // $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        )->where($searchfields[0],'like','%'.$request->get('keyword').'%')->get();
-        $i = 1;
-        while(count($suppliers)==0 && $i < count($searchfields)){
+        if($request->get('category')){
+            $searchfields = array('name','location','phone');
             $suppliers = $this->supplierRepository->findBy(
                 ["category"=>$request->get('category')],
                 // $request->except(['skip', 'limit']),
                 $request->get('skip'),
                 $request->get('limit')
-            )->where($searchfields[$i],'like','%'.$request->get('keyword').'%')->get();
-            $i++;
+            )->where($searchfields[0],'like','%'.$request->get('keyword').'%')->get();
+            $i = 1;
+            while(count($suppliers)==0 && $i < count($searchfields)){
+                $suppliers = $this->supplierRepository->findBy(
+                    ["category"=>$request->get('category')],
+                    // $request->except(['skip', 'limit']),
+                    $request->get('skip'),
+                    $request->get('limit')
+                )->where($searchfields[$i],'like','%'.$request->get('keyword').'%')->get();
+                $i++;
+            }
+        }else{
+            $suppliers = $this->supplierRepository->all(
+                $request->except(['skip', 'limit']),
+                $request->get('skip'),
+                $request->get('limit')
+            ); 
         }
+        
         return $this->sendResponse(SupplierResource::collection($suppliers), 'Suppliers retrieved successfully');
     }
 
