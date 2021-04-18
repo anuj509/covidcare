@@ -209,4 +209,18 @@ class PostAPIController extends AppBaseController
         $post->save();
         return $this->sendSuccess('Post updateded successfully');
     }
+
+    public function requirementStats()
+    {   $counter = array('oxygen'=>0,'bed'=>0,'plasma'=>0,'medicines'=>0);
+        foreach ($counter as $key => $value) {
+            $counter[$key] = $this->postRepository->findBy(
+                ['closed_at'=>NULL,'requirement'=>'like%'.$key.'%'],
+                // $request->except(['skip', 'limit']),
+                // $request->get('skip'),
+                // $request->get('limit')
+            )->count();
+        }
+
+        return $this->sendResponse($counter, 'Stats retrieved successfully');
+    }
 }
