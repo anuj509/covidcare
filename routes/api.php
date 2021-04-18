@@ -33,4 +33,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('feeds', 'FeedAPIController');
 
     Route::resource('suppliers', 'SupplierAPIController');
+
+    Route::resource('users', 'UserAPIController');
 });
