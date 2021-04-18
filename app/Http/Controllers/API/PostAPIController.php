@@ -210,11 +210,11 @@ class PostAPIController extends AppBaseController
         return $this->sendSuccess('Post updateded successfully');
     }
 
-    public function requirementStats()
+    public function requirementStats(Request $request)
     {   $counter = array('oxygen'=>0,'bed'=>0,'plasma'=>0,'medicines'=>0);
         foreach ($counter as $key => $value) {
             $counter[$key] = $this->postRepository->findBy(
-                ['closed_at'=>NULL,'requirement'=>'like%'.$key.'%'],
+                ['closed_at'=>NULL,'requirement'=>'like%'.$key.'%']
                 // $request->except(['skip', 'limit']),
                 // $request->get('skip'),
                 // $request->get('limit')
