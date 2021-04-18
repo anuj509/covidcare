@@ -38,12 +38,37 @@ class PostAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $searchfields = array('name',
+        'dob',
+        'gender',
+        'blood_group',
+        'oxygen_level',
+        'poc_name',
+        'poc_phone',
+        'patient_currently_admitted_at',
+        'ward',
+        'requirement',
+        'oxygen',
+        'plasma',
+        'medicines',
+        'bed',
+        'other');
         $posts = $this->postRepository->findBy(
             ['closed_at'=>NULL,'requirement'=>'like%' . $request->get('category') . '%'],
             // $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
-        )->get();
+        )->where($searchfields[0],'like','%'.$request->get('keyword').'%')->get();
+        $i = 1;
+        while(count($posts)==0 && $i < count($searchfields)){
+            $posts = $this->postRepository->findBy(
+                ["category"=>$request->get('category')],
+                // $request->except(['skip', 'limit']),
+                $request->get('skip'),
+                $request->get('limit')
+            )->where($searchfields[$i],'like','%'.$request->get('keyword').'%')->get();
+            $i++;
+        }
         $posts = $posts->toArray();
         foreach ($posts as $key => $post) {
             $params = array('oxygen','plasma','medicines','bed');

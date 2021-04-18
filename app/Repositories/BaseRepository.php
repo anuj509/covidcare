@@ -237,4 +237,55 @@ abstract class BaseRepository
         }
         return $query;
     }
+
+    // public function findByOr($search, $optionals, $skip = null, $limit = null) {
+    //     $query = $this->model->newQuery();
+    //     $exp = "/like([%])\w+([%])/";
+    //     foreach($search as $key => $value) {
+    //         if (in_array($key, $this->getFieldsSearchable())) {
+    //             if(preg_match($exp, $value)==1){
+    //                 // dd(preg_match($exp, $value));
+    //                 $value = str_replace($value,'like%','');
+    //                 $value = str_replace($value,'%','');
+    //                 $query->where($key, 'LIKE', '%'.$value.'%');
+    //             }else{
+    //                 $query->where($key, $value);
+    //             }
+    //         }
+    //     }
+    //     // foreach($optionals as $key => $value) {
+    //     //     if (in_array($key, $this->getFieldsSearchable())) {
+    //     //         if($key==array_key_first($optionals)){
+    //     //             if(preg_match($exp, $value)==1){
+    //     //                 // dd(preg_match($exp, $value));
+    //     //                 $value = str_replace($value,'like%','');
+    //     //                 $value = str_replace($value,'%','');
+    //     //                 $query->where($key, 'LIKE', '%'.$value.'%');
+    //     //             }else{
+    //     //                 $query->where($key, $value);
+    //     //             }
+    //     //         }else{
+    //     //             // dd($key);
+    //     //             // $query->orWhere($key, $value);
+    //     //             if(preg_match($exp, $value)==1){
+    //     //                 // dd(preg_match($exp, $value));
+    //     //                 $value = str_replace($value,'like%','');
+    //     //                 $value = str_replace($value,'%','');
+    //     //                 $query->orWhere($key, 'LIKE', '%'.$value.'%');
+    //     //             }else{
+    //     //                 $query->orWhere($key, $value);
+    //     //             }
+    //     //         }
+    //     //     }
+    //     // }
+
+    //     if (!is_null($skip)) {
+    //         $query->skip($skip);
+    //     }
+
+    //     if (!is_null($limit)) {
+    //         $query->limit($limit);
+    //     }
+    //     return $query;
+    // }
 }

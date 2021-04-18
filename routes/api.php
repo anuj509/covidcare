@@ -29,4 +29,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/posts/statusupdate/{userid}', 'PostAPIController@updateUserPost');
 
     Route::resource('feeds', 'FeedAPIController');
+
+    Route::resource('suppliers', 'SupplierAPIController');
 });
