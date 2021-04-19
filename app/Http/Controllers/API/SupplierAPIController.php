@@ -10,7 +10,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\SupplierResource;
 use Response;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ResourcesImport;
 /**
  * Class SupplierController
  * @package App\Http\Controllers\API
@@ -148,5 +149,18 @@ class SupplierAPIController extends AppBaseController
         $supplier->delete();
 
         return $this->sendSuccess('Supplier deleted successfully');
+    }
+
+    public function bulkUpload(Request $request)
+    {
+        $input = $request->all();
+        $file = $request->file('file');
+        if($request->hasFile('file')){
+            $fullname= $file->getClientOriginalName(); 
+            $hashname  = $fullname;
+            Excel::import(new ResourcesImport,$file);
+            return $this->sendSuccess('Bulk Responses imported successfully');
+        }
+        return $this->sendError('Please attach file to upload');
     }
 }

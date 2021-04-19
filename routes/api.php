@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('feeds', 'FeedAPIController');
 
     Route::resource('suppliers', 'SupplierAPIController');
+    Route::post('/suppliers/bulk', 'SupplierAPIController@bulkUpload');
 
     Route::resource('users', 'UserAPIController');
 });
