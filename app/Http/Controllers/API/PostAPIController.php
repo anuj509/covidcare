@@ -92,16 +92,16 @@ class PostAPIController extends AppBaseController
     {
         $input = $request->all();
         $input['requirement'] = implode(",",$input['requirement']);
-        if($input['oxygen']){
+        if(in_array('oxygen',$input)){
             $input['oxygen'] = json_encode($input['oxygen']);
         }
-        if($input['plasma']){
+        if(in_array('plasma',$input)){
             $input['plasma'] = json_encode($input['plasma']);
         }
-        if($input['medicines']){
+        if(in_array('medicines',$input)){
             $input['medicines'] = json_encode($input['medicines']);
         }
-        if($input['bed']){
+        if(in_array('bed',$input)){
             $input['bed'] = json_encode($input['bed']);
         }
         $input['marked_by_user']=false;
