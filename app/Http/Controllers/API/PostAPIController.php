@@ -119,7 +119,7 @@ class PostAPIController extends AppBaseController
         }
         $input['marked_by_user']=false;
         $input['comment']="";
-        dd($input);
+        // dd($input);
         $post = $this->postRepository->create($input);
         
         return $this->sendResponse(new PostResource($post), 'Post saved successfully');
