@@ -94,15 +94,23 @@ class PostAPIController extends AppBaseController
         $input['requirement'] = implode(",",$input['requirement']);
         if(in_array('oxygen',$input)){
             $input['oxygen'] = json_encode($input['oxygen']);
+        }else{
+            $input['oxygen'] = json_encode(array());
         }
         if(in_array('plasma',$input)){
             $input['plasma'] = json_encode($input['plasma']);
+        }else{
+            $input['plasma'] = json_encode(array());
         }
         if(in_array('medicines',$input)){
             $input['medicines'] = json_encode($input['medicines']);
+        }else{
+            $input['medicines'] = json_encode(array());
         }
         if(in_array('bed',$input)){
             $input['bed'] = json_encode($input['bed']);
+        }else{
+            $input['bed'] = json_encode(array());
         }
         if(!in_array('other',$input)){
             $input['other'] = "";
