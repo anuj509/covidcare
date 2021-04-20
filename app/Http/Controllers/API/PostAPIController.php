@@ -114,10 +114,12 @@ class PostAPIController extends AppBaseController
         }
         if(!array_key_exists('other',$input)){
             $input['other'] = "";
+        }else if(!$input['other']){
+            $input['other'] = "";
         }
         $input['marked_by_user']=false;
         $input['comment']="";
-        // dd($input);
+        dd($input);
         $post = $this->postRepository->create($input);
         
         return $this->sendResponse(new PostResource($post), 'Post saved successfully');
