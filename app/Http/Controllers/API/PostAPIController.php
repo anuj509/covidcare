@@ -236,11 +236,11 @@ class PostAPIController extends AppBaseController
     {   $counter = array('oxygen'=>0,'bed'=>0,'plasma'=>0,'medicines'=>0);
         foreach ($counter as $key => $value) {
             $counter[$key] = $this->postRepository->findBy(
-                ['closed_at'=>NULL,'requirement'=>'like%'.$key.'%']
+                ['closed_at'=>NULL]
                 // $request->except(['skip', 'limit']),
                 // $request->get('skip'),
                 // $request->get('limit')
-            )->count();
+            )->where('requirement','like','%'.$key.'%')->count();
         }
 
         return $this->sendResponse($counter, 'Stats retrieved successfully');
