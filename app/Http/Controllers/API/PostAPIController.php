@@ -92,31 +92,32 @@ class PostAPIController extends AppBaseController
     {
         $input = $request->all();
         $input['requirement'] = implode(",",$input['requirement']);
-        if(in_array('oxygen',$input)){
+        if(array_key_exists('oxygen',$input)){
             $input['oxygen'] = json_encode($input['oxygen']);
         }else{
             $input['oxygen'] = json_encode(array());
         }
-        if(in_array('plasma',$input)){
+        if(array_key_exists('plasma',$input)){
             $input['plasma'] = json_encode($input['plasma']);
         }else{
             $input['plasma'] = json_encode(array());
         }
-        if(in_array('medicines',$input)){
+        if(array_key_exists('medicines',$input)){
             $input['medicines'] = json_encode($input['medicines']);
         }else{
             $input['medicines'] = json_encode(array());
         }
-        if(in_array('bed',$input)){
+        if(array_key_exists('bed',$input)){
             $input['bed'] = json_encode($input['bed']);
         }else{
             $input['bed'] = json_encode(array());
         }
-        if(!in_array('other',$input)){
+        if(!array_key_exists('other',$input)){
             $input['other'] = "";
         }
         $input['marked_by_user']=false;
         $input['comment']="";
+        // dd($input);
         $post = $this->postRepository->create($input);
         
         return $this->sendResponse(new PostResource($post), 'Post saved successfully');
