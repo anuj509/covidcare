@@ -104,6 +104,9 @@ class PostAPIController extends AppBaseController
         if(in_array('bed',$input)){
             $input['bed'] = json_encode($input['bed']);
         }
+        if(!in_array('other',$input)){
+            $input['other'] = "";
+        }
         $input['marked_by_user']=false;
         $input['comment']="";
         $post = $this->postRepository->create($input);
