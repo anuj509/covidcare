@@ -92,10 +92,18 @@ class PostAPIController extends AppBaseController
     {
         $input = $request->all();
         $input['requirement'] = implode(",",$input['requirement']);
-        $input['oxygen'] = json_encode($input['oxygen']);
-        $input['plasma'] = json_encode($input['plasma']);
-        $input['medicines'] = json_encode($input['medicines']);
-        $input['bed'] = json_encode($input['bed']);
+        if($input['oxygen']){
+            $input['oxygen'] = json_encode($input['oxygen']);
+        }
+        if($input['plasma']){
+            $input['plasma'] = json_encode($input['plasma']);
+        }
+        if($input['medicines']){
+            $input['medicines'] = json_encode($input['medicines']);
+        }
+        if($input['bed']){
+            $input['bed'] = json_encode($input['bed']);
+        }
         $input['marked_by_user']=false;
         $input['comment']="";
         $post = $this->postRepository->create($input);

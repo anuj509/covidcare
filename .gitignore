@@ -3,8 +3,6 @@
 /public/storage
 /storage/*.key
 /vendor
-!/vendor/phpoffice/*
-!/vendor/maatwebsite/*
 .env
 .env.backup
 .phpunit.result.cache
