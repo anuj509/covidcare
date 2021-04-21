@@ -218,6 +218,7 @@ class PostAPIController extends AppBaseController
                 $user['posts'][$key]['requirement']=explode(',',$post['requirement']);
             }
         }
+        $user['posts'] = array_reverse($user['posts']);
         return $this->sendResponse($user, 'User Post retrieved successfully');
     }
 
