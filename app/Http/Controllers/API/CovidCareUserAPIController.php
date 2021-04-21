@@ -55,7 +55,7 @@ class CovidCareUserAPIController extends AppBaseController
     public function store(CreateCovidCareUserAPIRequest $request)
     {
         $input = $request->all();
-        $covidCareUser = $this->covidCareUserRepository->findBy(['name'=>$input['name'],'phone'=>$input['phone']])->first();
+        $covidCareUser = $this->covidCareUserRepository->findBy(['phone'=>$input['phone']])->first();
         if(empty($covidCareUser)){
             $covidCareUser = $this->covidCareUserRepository->create($input);
         }
