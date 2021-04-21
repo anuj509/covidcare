@@ -120,6 +120,9 @@ class PostAPIController extends AppBaseController
         }else if(!$input['other']){
             $input['other'] = "";
         }
+        if(!array_key_exists('ward',$input)){
+            $input['ward'] = "NA";
+        }
         $input['marked_by_user']=false;
         $input['comment']="";
         // dd($input);

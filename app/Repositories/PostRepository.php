@@ -26,7 +26,6 @@ class PostRepository extends BaseRepository
         'poc_name',
         'poc_phone',
         'patient_currently_admitted_at',
-        'ward',
         'requirement',
         'oxygen',
         'plasma',
