@@ -103,6 +103,9 @@ class PostAPIController extends AppBaseController
             $input['plasma'] = json_encode(array());
         }
         if(array_key_exists('medicines',$input)){
+            if(count($input['medicines'])==2){
+                $input['medicines'] = array_merge($input['medicines'][0],$input['medicines'][1]);
+            }
             $input['medicines'] = json_encode($input['medicines']);
         }else{
             $input['medicines'] = json_encode(array());
