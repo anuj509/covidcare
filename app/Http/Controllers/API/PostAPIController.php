@@ -54,19 +54,19 @@ class PostAPIController extends AppBaseController
         'bed',
         'other');
         $posts = $this->postRepository->findBy(
-            ['closed_at'=>NULL,'requirement'=>'like%' . $request->get('category') . '%'],
+            ['closed_at'=>NULL],
             // $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
-        )->where($searchfields[0],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
+        )->where('requirement','like','%' . $request->get('category') . '%')->where($searchfields[0],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
         $i = 1;
         while(count($posts)==0 && $i < count($searchfields)){
             $posts = $this->postRepository->findBy(
-                ["category"=>$request->get('category')],
+                ['closed_at'=>NULL],
                 // $request->except(['skip', 'limit']),
                 $request->get('skip'),
                 $request->get('limit')
-            )->where($searchfields[$i],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
+            )->where('requirement','like','%' . $request->get('category') . '%')->where($searchfields[$i],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
             $i++;
         }
         $posts = $posts->toArray();
