@@ -104,9 +104,9 @@ class PostAPIController extends AppBaseController
         }
         if(array_key_exists('medicines',$input)){
             if(count($input['medicines'])==2){
-                $input['medicines'] = array_merge($input['medicines'][0],$input['medicines'][1]);
+                $input['medicines'] = [array_merge($input['medicines'][0],$input['medicines'][1])];
             }
-            $input['medicines'] = json_encode(array($input['medicines']));
+            $input['medicines'] = json_encode($input['medicines']);
         }else{
             $input['medicines'] = json_encode(array());
         }
