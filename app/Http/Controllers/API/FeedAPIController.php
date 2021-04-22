@@ -37,11 +37,11 @@ class FeedAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $feeds = $this->feedRepository->all(
+        $feeds = $this->feedRepository->allQuery(
             $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
-        );
+        )->orderBy('id','DESC')->get();
 
         return $this->sendResponse(FeedResource::collection($feeds), 'Feeds retrieved successfully');
     }
