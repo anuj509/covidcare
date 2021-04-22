@@ -95,7 +95,6 @@ class Post extends Model
         'poc_name' => 'required|max:100',
         'poc_phone' => 'required|min:10|max:10',
         'patient_currently_admitted_at' => 'required',
-        'ward' => 'required',
         'requirement' => 'required|array',
         'user_id' => 'required'
     ];
