@@ -53,12 +53,17 @@ class PostAPIController extends AppBaseController
         'medicines',
         'bed',
         'other');
+        if($request->get('category') == "beds"){
+            $category = "bed";
+        }else{
+            $category = $request->get('category');
+        }
         $posts = $this->postRepository->findBy(
             ['closed_at'=>NULL],
             // $request->except(['skip', 'limit']),
             $request->get('skip'),
             $request->get('limit')
-        )->where('requirement','like','%' . $request->get('category') . '%')->where($searchfields[0],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
+        )->where('requirement','like','%' . $category . '%')->where($searchfields[0],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
         $i = 1;
         while(count($posts)==0 && $i < count($searchfields)){
             $posts = $this->postRepository->findBy(
@@ -66,7 +71,7 @@ class PostAPIController extends AppBaseController
                 // $request->except(['skip', 'limit']),
                 $request->get('skip'),
                 $request->get('limit')
-            )->where('requirement','like','%' . $request->get('category') . '%')->where($searchfields[$i],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
+            )->where('requirement','like','%' . $category . '%')->where($searchfields[$i],'like','%'.$request->get('keyword').'%')->orderBy('id', 'DESC')->get();
             $i++;
         }
         $posts = $posts->toArray();
@@ -76,7 +81,6 @@ class PostAPIController extends AppBaseController
                 $posts[$key][$param] = json_decode($post[$param],true);
             }
             $posts[$key]['requirement']=explode(',',$post['requirement']);
-            $posts[$key]['beds'] = $posts[$key]['bed'];
         }
         return $this->sendResponse($posts, 'Posts retrieved successfully');
     }
@@ -219,7 +223,6 @@ class PostAPIController extends AppBaseController
                     $user['posts'][$key][$param] = json_decode($post[$param],true);
                 }
                 $user['posts'][$key]['requirement']=explode(',',$post['requirement']);
-                $user['posts'][$key]['beds'] = $user['posts'][$key]['bed'];
             }
         }
         $user['posts'] = array_reverse($user['posts']);
