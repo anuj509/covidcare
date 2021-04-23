@@ -100,12 +100,12 @@ class PostAPIController extends AppBaseController
         if(array_key_exists('oxygen',$input)){
             $input['oxygen'] = json_encode($input['oxygen']);
         }else{
-            $input['oxygen'] = json_encode(array());
+            $input['oxygen'] = json_encode(array(array("number"=>null)));
         }
         if(array_key_exists('plasma',$input)){
             $input['plasma'] = json_encode($input['plasma']);
         }else{
-            $input['plasma'] = json_encode(array());
+            $input['plasma'] = json_encode(array(array("units"=>null)));
         }
         if(array_key_exists('medicines',$input)){
             if(count($input['medicines'])==2){
@@ -113,12 +113,12 @@ class PostAPIController extends AppBaseController
             }
             $input['medicines'] = json_encode($input['medicines']);
         }else{
-            $input['medicines'] = json_encode(array());
+            $input['medicines'] = json_encode(array(array("name"=>null,"count"=>null)));
         }
         if(array_key_exists('bed',$input)){
             $input['bed'] = json_encode($input['bed']);
         }else{
-            $input['bed'] = json_encode(array());
+            $input['bed'] = json_encode(array(array("count"=>null)));
         }
         if(!array_key_exists('other',$input)){
             $input['other'] = "";
