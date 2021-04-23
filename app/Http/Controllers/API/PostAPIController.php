@@ -122,6 +122,8 @@ class PostAPIController extends AppBaseController
         }
         if(!array_key_exists('ward',$input)){
             $input['ward'] = "NA";
+        }else if(array_key_exists('ward',$input) && ($input['ward']==null || $input['ward']=="")){
+            $input['ward'] = "NA";
         }
         $input['marked_by_user']=false;
         $input['comment']="";
