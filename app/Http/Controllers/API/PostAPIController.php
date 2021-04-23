@@ -76,6 +76,7 @@ class PostAPIController extends AppBaseController
                 $posts[$key][$param] = json_decode($post[$param],true);
             }
             $posts[$key]['requirement']=explode(',',$post['requirement']);
+            $posts[$key]['beds'] = $post['bed'];
         }
         return $this->sendResponse($posts, 'Posts retrieved successfully');
     }
@@ -218,6 +219,7 @@ class PostAPIController extends AppBaseController
                     $user['posts'][$key][$param] = json_decode($post[$param],true);
                 }
                 $user['posts'][$key]['requirement']=explode(',',$post['requirement']);
+                $posts[$key]['beds'] = $post['bed'];
             }
         }
         $user['posts'] = array_reverse($user['posts']);
