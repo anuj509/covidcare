@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         //     Post::where('created_at', '<', Carbon::now()->subDays(7))->delete();
         // })->daily();
         $schedule->call(function () {
-            Post::where('created_at', '<', Carbon::now()->subDays(14))->delete();
+            Post::where('created_at', '<', Carbon::now()->subDays(5))->delete();
             Feed::where('created_at', '<', Carbon::now()->subDays(14))->delete();
         })->daily();
     }
