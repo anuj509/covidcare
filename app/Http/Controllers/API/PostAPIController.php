@@ -138,8 +138,7 @@ class PostAPIController extends AppBaseController
         $input['comment']="";
         // dd($input);
         $post = $this->postRepository->create($input);
-
-        SaveToSheetJob::dispatch($this->postRepository,$post->id);
+        
         $client = $this->getClient();
         $this->service = new Google_Service_Sheets($client);
         $values = [
