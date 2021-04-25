@@ -139,37 +139,37 @@ class PostAPIController extends AppBaseController
         // dd($input);
         $post = $this->postRepository->create($input);
 
-        // SaveToSheetJob::dispatch($this->postRepository,$post->id);
-        // $client = $this->getClient();
-        // $this->service = new Google_Service_Sheets($client);
-        // $values = [
-        //     [
-        //         $post['name'],
-        //         $post['dob'],
-        //         $post['gender'],
-        //         $post['blood_group'],
-        //         $post['oxygen_level'],
-        //         $post['poc_name'],
-        //         $post['poc_phone'],
-        //         $post['patient_currently_admitted_at'],
-        //         $post['ward'],
-        //         $post['requirement'],
-        //         $post['oxygen'],
-        //         $post['plasma'],
-        //         $post['medicines'],
-        //         $post['bed'],
-        //         $post['other'],
-        //         $post['created_at']
-        //     ],
-        // ];
-        // $body = new Google_Service_Sheets_ValueRange([
-        //     'values' => $values
-        // ]);
-        // $valueInputOption = "RAW";
-        // $params = [
-        //     'valueInputOption' => $valueInputOption
-        // ];
-        // $result = $this->service->spreadsheets_values->append(env('GOOGLE_SHEET_ID'), 'Sheet1', $body, $params);
+        SaveToSheetJob::dispatch($this->postRepository,$post->id);
+        $client = $this->getClient();
+        $this->service = new Google_Service_Sheets($client);
+        $values = [
+            [
+                $post['name'],
+                $post['dob'],
+                $post['gender'],
+                $post['blood_group'],
+                $post['oxygen_level'],
+                $post['poc_name'],
+                $post['poc_phone'],
+                $post['patient_currently_admitted_at'],
+                $post['ward'],
+                $post['requirement'],
+                $post['oxygen'],
+                $post['plasma'],
+                $post['medicines'],
+                $post['bed'],
+                $post['other'],
+                $post['created_at']
+            ],
+        ];
+        $body = new Google_Service_Sheets_ValueRange([
+            'values' => $values
+        ]);
+        $valueInputOption = "RAW";
+        $params = [
+            'valueInputOption' => $valueInputOption
+        ];
+        $result = $this->service->spreadsheets_values->append(env('GOOGLE_SHEET_ID'), 'Sheet1', $body, $params);
         
         return $this->sendResponse(new PostResource($post), 'Post saved successfully');
     }
