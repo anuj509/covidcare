@@ -273,7 +273,11 @@ class PostAPIController extends AppBaseController
             return $this->sendError('Post not found');
         }
         $post->closed_at = Carbon::now();
-        $post->marked_by_user = true;
+        if(!array_key_exists('marked_by_user',$request->all())){
+            $post->marked_by_user = true;
+        }else{
+            $post->marked_by_user = false;
+        }
         if($request['comment']){
             $post->comment = $request['comment'];
         }
