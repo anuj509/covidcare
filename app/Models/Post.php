@@ -54,6 +54,9 @@ class Post extends Model
         'closted_at',
         'marked_by_user',
         'comment',
+        'status',
+        'admin_comment',
+        'admin_id'
     ];
 
     /**
@@ -101,6 +104,11 @@ class Post extends Model
 
     public static $updatePostRules = [
         'post_id' => 'required',
+    ];
+
+    public static $updatePostAdminRules = [
+        'post_id' => 'required',
+        'status' => 'required'
     ];
 
 

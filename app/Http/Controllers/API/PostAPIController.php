@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\API\CreatePostAPIRequest;
 use App\Http\Requests\API\UpdatePostAPIRequest;
 use App\Http\Requests\API\UpdatePostStatusAPIRequest;
+use App\Http\Requests\API\UpdatePostStatusAdminAPIRequest;
 use App\Models\Post;
+use App\Models\User;
 use App\Repositories\PostRepository;
 use App\Repositories\CovidCareUserRepository;
 use Illuminate\Http\Request;
@@ -81,12 +83,18 @@ class PostAPIController extends AppBaseController
             $i++;
         }
         $posts = $posts->toArray();
+        $admin_users = array();
+        foreach (User::get(['id', 'name'])->toArray() as $key => $v) {
+            $admin_users[$v['id']]=$v['name'];
+        }
+        // dd($admin_users);
         foreach ($posts as $key => $post) {
             $params = array('oxygen','plasma','medicines','bed');
             foreach ($params as $k => $param) {
                 $posts[$key][$param] = json_decode($post[$param],true);
             }
             $posts[$key]['requirement']=explode(',',$post['requirement']);
+            $posts[$key]['status'] = $post['status'].(array_key_exists($post['admin_id'],$admin_users)?" by ".$admin_users[$post['admin_id']]:"");
         }
         return $this->sendResponse($posts, 'Posts retrieved successfully');
     }
@@ -138,6 +146,7 @@ class PostAPIController extends AppBaseController
         }
         $input['marked_by_user']=false;
         $input['comment']="";
+        $input['admin_comment']="";
         // dd($input);
         $post = $this->postRepository->create($input);
         
@@ -264,12 +273,17 @@ class PostAPIController extends AppBaseController
         }
         if(!empty($user)){
             $user = $user->toArray();
+            $admin_users = array();
+            foreach (User::get(['id', 'name'])->toArray() as $key => $v) {
+                $admin_users[$v['id']]=$v['name'];
+            }
             foreach ($user['posts'] as $key => $post) {
                 $params = array('oxygen','plasma','medicines','bed');
                 foreach ($params as $k => $param) {
                     $user['posts'][$key][$param] = json_decode($post[$param],true);
                 }
                 $user['posts'][$key]['requirement']=explode(',',$post['requirement']);
+                $user['posts'][$key]['status'] = $post['status'].(array_key_exists($post['admin_id'],$admin_users)?" by ".$admin_users[$post['admin_id']]:"");
             }
         }
         $user['posts'] = array_reverse($user['posts']);
@@ -293,6 +307,25 @@ class PostAPIController extends AppBaseController
         if($request['comment']){
             $post->comment = $request['comment'];
         }
+        $post->save();
+        return $this->sendSuccess('Post updateded successfully');
+    }
+
+    public function updatePostByAdmin(UpdatePostStatusAdminAPIRequest $request)
+    {
+        /** @var Post $post */
+        $post = $this->postRepository->findBy(['id'=>$request['post_id']])->first();
+
+        if (empty($post)) {
+            return $this->sendError('Post not found');
+        }
+        $admin_id = \Auth::User()->id;
+        $post->admin_id = $admin_id;
+        $post->status=$request['status'];
+        if($request['admin_comment']){
+            $post->admin_comment = $request['admin_comment'];
+        }
+        
         $post->save();
         return $this->sendSuccess('Post updateded successfully');
     }
